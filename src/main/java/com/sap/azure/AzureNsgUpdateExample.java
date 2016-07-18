@@ -42,13 +42,16 @@ public class AzureNsgUpdateExample {
         NetworkSecurityGroup nsg = null;
 
         // Find primary nic and get nsg
-        for (String nref : vm.networkInterfaceIds()) {
-            NetworkInterface nic = az.networkInterfaces().getById(nref);
-            if ((nic != null) && (nic.isPrimary())) {
-                nsg = az.networkSecurityGroups().getById(nic.networkSecurityGroup().id());
-                break;
-            }
-        }
+//        for (String nref : vm.networkInterfaceIds()) {
+//            NetworkInterface nic = az.networkInterfaces().getById(nref);
+//            if ((nic != null) && (nic.isPrimary())) {
+//                nsg = az.networkSecurityGroups().getById(nic.networkSecurityGroup().id());
+//                break;
+//            }
+//        }
+
+        NetworkInterface nic = vm.primaryNetworkInterface();
+        nsg = az.networkSecurityGroups().getById(nic.networkSecurityGroupId());
 
         if (nsg == null) {
             System.err.println("No NSG found exiting");
